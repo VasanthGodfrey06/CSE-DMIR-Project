@@ -1,0 +1,226 @@
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="author" content="colorlib.com" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:400,600,700"
+      rel="stylesheet"
+    />
+    <link href="../static/styles/main.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div class="s009" >
+      <form action="http://127.0.0.1:5000/search" method="post">
+        <div class="inner-form">
+          <div class="basic-search">
+            <div class="input-field">
+              <input
+                id="searchTerm"
+                name="searchTerm"
+                type="text"
+                placeholder="Type your query...."
+              />
+
+            </div>
+          </div>
+          <div class="advance-search">
+            <span class="desc">ADVANCED SEARCH</span>
+            <div class="row">
+              <div class="input-field">
+                <div class="input-select">
+                  <label class="custom-select" for="styledSelect1">
+                  <select data-trigger="" name="movie">
+                    <option placeholder="" value="">படம்</option>
+                    {% for val in details.movies %}
+                  <option value={{val}}>{{val}}</option>              
+                  {% endfor %}
+                  </select>
+                </label>  
+                </div>
+              </div>
+              
+              
+              <div class="input-field">
+                <div class="input-select">
+                  <label class="custom-select" for="styledSelect1">
+                    <select data-trigger="" name="year">
+                      <option placeholder="" value="">வருடம்</option>
+                      {% for val in details.years %}
+                    <option value={{val}}>{{val}}</option>              
+                    {% endfor %}              
+                    </select>
+                  </label> 
+                </div>
+              </div>
+              
+              <div class="input-field">
+                <div class="input-select">
+                  <label class="custom-select" for="styledSelect1">
+                    <select data-trigger="" name="composer">
+                      <option placeholder="" value="">இசையமைப்பாளர்</option>
+                      {% for val in details.composers %}
+                    <option value={{val}}>{{val}}</option>              
+                    {% endfor %}
+                    </select>
+                  </label> 
+                  
+                </div>
+              </div>
+            </div>
+            <div class="row second">
+              <div class="input-field">
+                <div class="input-select">
+                  <label class="custom-select" for="styledSelect1">
+                    <select data-trigger="" name="singer">
+                      <option placeholder="" value="">பாடகர்கள்</option>
+                      {% for val in details.singers %}
+                    <option value={{val}}>{{val}}</option>              
+                    {% endfor %}
+                    </select>
+                  </label> 
+                  
+                </div>
+              </div>
+              <div class="input-field">
+                <div class="input-select">
+                  <label class="custom-select" for="styledSelect1">
+                    <select data-trigger="" name="lyricist">
+                      <option placeholder="" value="">பாடலாசிரியர்</option>
+                      {% for val in details.lyricists %}
+                      <option value={{val}}>{{val}}</option>              
+                      {% endfor %}
+                    </select>
+                  </label> 
+                
+                </div>
+                
+              </div>
+              <div class="input-field">
+                <div class="input-select"></div>
+              </div>
+            </div>
+            
+            <div class="row four">
+              <div class="input-field">
+          <div>
+            Enable to find the most related 
+          </div>
+          <div >
+            <label class="switch">
+              <input type="checkbox" name="checkbox">
+              <span class="slider round"></span>
+              
+            </label>
+          </div>
+            </div>
+          </div>
+            <div class="row third">
+              <div class="input-field">
+                {% if hits %}
+                <div class="result-count">
+                  <span
+                    ><strong class="text-danger"
+                      >{{ num_results }}</strong
+                    > </span
+                  >results
+                </div>
+                <div class="result-time">
+                  <span><strong class="text-danger">{{ time }}ms</strong> </span
+                  >has taken
+                </div>
+                {% else %} No result found {% endif %}
+                <div class="group-btn">
+                  <button class="btn-delete" id="delete">RESET</button>
+                  <button class="btn-search" type="submit" value="Submit">
+                    SEARCH
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div>
+      {% if hits %}
+      <div class="results">
+        <h2 style="color:  black" >
+          <span>Songs: </span>
+          <ul id="songs" style="display: inline-block"></ul>
+        </h4>
+
+        <section id="song_section" class="col-md-8">
+          <ul class="res clearfix">
+            {% for hit in hits %}
+            <li>
+              <h3 style="color: black">
+                <a href="#" title="">{{ hit._source.பாடல் }}</a>
+              </h3>
+              <ul class="meta-search" style="color: black">
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Album Title: {{ hit._source.படம் }}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Composer: {{ hit._source.இசையமைப்பாளர்}}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Lyricist: {{ hit._source.பாடலாசிரியர்}}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Singers: {{ hit._source.பாடகர்கள்}}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Year: {{ hit._source.வருடம் }} </span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Metaphor: {{ hit._source.உருவகம் }}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Source Domain: {{ hit._source.உவமானம்}}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Target Domain: {{ hit._source.உவமேயம்}}</span>
+                </li>
+                <li>
+                  <i class="glyphicon glyphicon-tags"></i>
+                  <span>Lyrics: {{ hit["_source"]["பாடல் வரிகள்"]}}</span>
+                </li>
+              </ul>
+            </li>
+            {% endfor %}
+          </ul>
+        </section>
+
+        {% endif %}
+      </div>
+    </div>
+    <script src="js/extention/choices.js"></script>
+    <script>
+      const customSelects = document.querySelectorAll("select");
+      const deleteBtn = document.getElementById("delete");
+      const choices = new Choices("select", {
+        searchEnabled: false,
+        itemSelectText: "",
+        removeItemButton: true,
+      });
+      deleteBtn.addEventListener("click", function (e) {
+        e.preventDefault();
+        const deleteAll = document.querySelectorAll(".choices__button");
+        for (let i = 0; i < deleteAll.length; i++) {
+          deleteAll[i].click();
+        }
+      });
+    </script>
+  </body>
+  <!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>

@@ -1,0 +1,86 @@
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta name="author" content="colorlib.com">
+	<link href="https://fonts.googleapis.com/css?family=Poppins" rel="stylesheet" type="text/css" />
+	<link href="{{ url_for('static',filename='styles/main.css') }}" rel="stylesheet" type="text/css" />
+</head>
+
+<body>
+	<div class="s130">
+		<div>
+			<h1 class="heading">Melody Songs Search Engine</h1>
+			<form action="http://127.0.0.1:5000/search" method="post">
+				<div class="inner-form">
+					<div class="input-field first-wrap">
+						<div class="svg-wrapper">
+							<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+								<path
+									d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z">
+								</path>
+							</svg>
+						</div>
+						<input id="searchTerm" type="text" name="searchTerm" placeholder="Type Your Query" />
+					</div>
+					<div class="input-field second-wrap">
+						<button class="btn-search" type="submit" value="Submit">SEARCH</button>
+					</div>
+			</form>
+		</div>
+		<div class="results">
+			{% if hits %}
+			<hgroup class="mb20">
+				<h2 style="font-size: 30px">Search Results:</h2>
+				<h2 class="lead" id="results"><strong class="text-danger">{{ num_results }}</strong> results were found
+					for
+					the search for <strong class="text-danger">{{ query }}</strong></h2>
+				<h2 class="lead" id="results"> About <strong class="text-danger">({{ time }}ms)</strong></h2>
+			</hgroup>
+			<h4 style="color:white"><span>Songs: </span>
+				<ul id="songs" style="display: inline-block"></ul>
+			</h4>
+
+			<section id='song_section' class="col-md-8">
+				<ul class="res clearfix">
+					{% for hit in hits %}
+					<li>
+						<h3 style="color:white"><a href="#" title="">{{ hit._source.பாடல் }}</a></h3>
+						<ul class="meta-search" style="color: white;">
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Album Title: {{ hit._source.படம் }}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Composer: {{ hit._source.இசையமைப்பாளர்}}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Lyricist: {{ hit._source.பாடலாசிரியர்}}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Singers: {{ hit._source.பாடகர்கள்}}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Year: {{ hit._source.வருடம் }} </span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Metaphor: {{ hit._source.உருவகம் }}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Source Domain: {{ hit._source.உவமானம்}}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Target Domain: {{ hit._source.உவமேயம்}}</span></li>
+							<li><i class="glyphicon glyphicon-tags"></i> <span>Lyrics: {{ hit["_source"]["பாடல் வரிகள்"]}}</span></li>
+						</ul>
+					</li>
+					{% endfor %}
+				</ul>
+			</section>
+
+			{% else %}
+			{% if init %}
+			<hgroup class="mb20">
+				<h2 class="lead">Please enter the search query in the box</strong></h2>
+			</hgroup>
+			{% else %}
+			<hgroup class="mb20">
+				<h1 >Search Results:</h1>
+				<h2 class="lead"><strong class="text-danger">0</strong> results were found for the search for <strong
+						class="text-danger">{{ query }}</strong></h2>
+			</hgroup>
+			{% endif %}
+			{% endif %}
+		</div>
+
+	</div>
+	<script src="{{url_for('static', filename='js/extention/choices.js')}}"></script>
+</body>
+
+</html>

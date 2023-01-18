@@ -1,0 +1,69 @@
+{
+  "properties": {
+    "பாடல்": {
+      "type": "text",
+      "analyzer": "plain",
+      "fields": {
+        "inflections": {
+          "type": "text",
+          "analyzer": "inflections"
+        },
+        "custom": {
+          "type": "text",
+          "analyzer": "my_custom_analyzer"
+        }
+      }
+    },
+    "பாடல்வரிகள்": {
+      "type": "text",
+      "analyzer": "plain",
+      "fields": {
+        "inflections": {
+          "type": "text",
+          "analyzer": "inflections"
+        },
+        "custom": {
+          "type": "text",
+          "analyzer": "my_custom_analyzer"
+        }
+      }
+    },
+    "வருடம்": {
+      "type": "integer"
+    },
+    "படம்": {
+      "type": "keyword"
+    },
+    "உவமானம்": {
+      "type": "text"
+    },
+    "உவமேயம்": {
+      "type": "text"
+    },
+    "இசையமைப்பாளர்": {
+      "type": "keyword"
+    },
+    "பாடலாசிரியர்": {
+      "type": "text",
+      "fielddata": true
+    },
+    "பாடகர்கள்": {
+      "type": "text",
+      "fielddata": true
+    },
+    "உருவகம்": {
+      "type": "text",
+      "analyzer": "plain",
+      "fields": {
+        "inflections": {
+          "type": "text",
+          "analyzer": "inflections"
+        },
+        "custom": {
+          "type": "text",
+          "analyzer": "my_custom_analyzer"
+        }
+      }
+    }
+  }
+}
