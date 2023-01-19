@@ -85,8 +85,9 @@ def advanced_search(query, year, movie, composer, lyricist, singer, checkbox):
     fields = [year, movie, composer, lyricist, singer]
     if checkbox == "off":
         if all(string == "" for string in fields) :
-            q = {'query': {'query_string': {'query': query, 'default_operator': 'or'}}}
+            q = {'query': {'query_string': {'query': query, 'default_operator': 'or',"analyzer": "inflections"}}}
         else:
+            should.append({'query_string': {'query': query, 'default_operator': 'or',"analyzer": "inflections"}})
             if year != "":
                 should.append({ "match": { "வருடம்": {"query":year,"operator":"and"} } })
             if movie != "":
@@ -96,7 +97,7 @@ def advanced_search(query, year, movie, composer, lyricist, singer, checkbox):
             if lyricist != "":
                 should.append({"match": { "பாடலாசிரியர்": {"query":lyricist,"operator":"and"} }})
             if singer != "":
-                should.append({"match": { "பாடகர்": {"query":singer,"operator":"and"} }})       
+                should.append({"match": { "பாடகர்கள்": {"query":singer,"operator":"and"} }})       
             q = {
             "query": {            
                 "bool": {
@@ -107,18 +108,19 @@ def advanced_search(query, year, movie, composer, lyricist, singer, checkbox):
             } 
     else:
         if all(string == "" for string in fields) :
-            q = {'query': {'query_string': {'query': query, 'default_operator': 'and'}}}
+            q = {'query': {'query_string': {'query': query, 'default_operator': 'and', "analyzer": "inflections"}}}
         else:
+            must.append({'query_string': {'query': query, 'default_operator': 'and', "analyzer": "inflections"}})
             if year != "":
                 must.append({ "match": { "வருடம்": {"query":year,"operator":"and"} } })
             if movie != "":
-                must.append({"match_phrase": { "படம்": {"query":movie,"operator":"and"} }})
+                must.append({"match": { "படம்": {"query":movie,"operator":"and"} }})
             if composer != "":
                 must.append({"match": { "இசையமைப்பாளர்": {"query":composer,"operator":"and"} }})
             if lyricist != "":
                 must.append({"match": { "பாடலாசிரியர்": {"query":lyricist,"operator":"and"} }})
             if singer != "":
-                must.append({"match": { "பாடகர்": {"query":singer,"operator":"and"} }})       
+                must.append({"match": { "பாடகர்கள்": {"query":singer,"operator":"and"} }})       
             q = {
             "query": {            
                 "bool": {

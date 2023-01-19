@@ -44,12 +44,10 @@
       "type": "keyword"
     },
     "பாடலாசிரியர்": {
-      "type": "text",
-      "fielddata": true
+      "type": "keyword"
     },
     "பாடகர்கள்": {
-      "type": "text",
-      "fielddata": true
+      "type": "keyword"
     },
     "உருவகம்": {
       "type": "text",
